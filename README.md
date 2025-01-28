@@ -14,4 +14,5 @@ bash mp4tosrt.sh
 
 To use a different size model or change the output format, adjust line 27. 
 >  whisper "$WAV_FILE" --model large --output_format srt
+
 run $ whisper -h to see available options
