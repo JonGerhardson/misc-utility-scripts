@@ -36,4 +36,34 @@ Default prompt:
  {"role": "user", "content": f"Summarize this document:\n\n{content}"}
 
 
+---
+## meeting_splitter.py
+
+Splits a long meeting transcript into several smaller files based on topics discussed. 
+
+**Requirements:**
+Uses ollama and your preferred LLM model. You don't need anything crazy for this, I've been using Phi4:14b (~10 GB) with good results. 
+
+```
+pip install requests tqdm
+```
+
+
+**Usage** ```python meeting_splitter.py [input file] [output directory] [options] ```
+
+Example:
+```
+$ python meeting_splitter.py "transcript.txt" Documents/output_folder   --model phi4:latest   --chunk_size 8000   --overlap 1200   --min_section 2000
+```
+
+You should see something like:
+```
+Identifying topics: 100%|███████████████████████| 11/11 [02:16<00:00, 12.40s/it]
+Created 3 discussion sections in output_folder
+```
+
+
+
+
+
 
