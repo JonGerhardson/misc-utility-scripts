@@ -62,6 +62,45 @@ Identifying topics: 100%|██████████████████�
 Created 3 discussion sections in output_folder
 ```
 
+## leagal_splitter.py
+Splits a long legal document into several smaller files based on the document's structure. Reads markdown files. Conver PDFs to .md first using marker-pdf or a similar tool. 
+
+**Requirements:**
+Uses ollama and your preferred LLM model. You don't need anything crazy for this, I've been using Phi4:14b (~10 GB) with good results. 
+```
+python legal_splitter.py input.md ./output_dir \
+  --model llama3 \          # Use different model
+  --chunk_size 10000 \      # Analysis window size (chars)
+  --overlap 2000 \          # Chunk overlap (chars)
+  --min_section 1500        # Minimum section length (chars)
+```
+
+Default prompt: 
+
+"""ANALYZE THIS LEGAL DOCUMENT AND IDENTIFY STRUCTURAL BOUNDARIES. RETURN:
+1. Exact headings, article numbers, or clause markers where new sections begin
+2. Include hierarchical markers (e.g., '##', '###') if present
+3. One marker per line
+4. Focus on these patterns:
+   - Document headings (e.g., '# Scope', '## Article 1: Definitions')
+   - Numbered clauses (e.g., '3.2 Confidentiality Obligations')
+   - Roman numeral sections (e.g., 'IV. INDEMNIFICATION')
+   - Section breaks (e.g., horizontal rules)
+   - Clause titles in bold or ALL CAPS
+
+EXAMPLES OF VALID RESPONSES:
+/# AGREEMENT AND PLAN OF MERGER
+/## ARTICLE III: REPRESENTATIONS
+/### Section 5.3. Governing Law
+CLAUSE 4.2: Notices
+SCHEDULE A
+EXHIBIT B-1
+
+TEXT TO ANALYZE:
+{chunk}
+
+RETURN ONLY THE EXACT SECTION HEADERS, ONE PER LINE:"""
+
 
 
 
