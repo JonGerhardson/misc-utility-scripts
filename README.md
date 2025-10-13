@@ -19,13 +19,17 @@ To use a different size model or change the output format, adjust line 27.
 
 Loops throuh a target directory and processes all video files to create a "montage" image from screen captures, creates an info frame showing video metadata as text and/or QR code. 
 
-Use ```--single``` flag to process only one video. 
+Usage: 
+```
+bash batch_caps.sh [OPTIONS] [DIRECTORY]
+```
+NOTE: Uses ```.``` as directory by default. Use ```--single``` flag to process only one video. 
 
-Tested on linux. Should work on macOS too. 
+Tested on ubuntu. Should work on macOS too but I have not tested this. 
 
-You need the following dependencies installed. 
+Either way you need the following dependencies installed:
 
-MacOS
+Using brew (macOS)
 ```
 brew install ffmpeg imagemagick exiftool qrencode coreutils parallel
 ```
@@ -55,7 +59,9 @@ SHA256: (This is split onto two lines to prevent cropping issues.)
 ```
 You can add a second frame showing the same info as a machine readable qr code with the ```--qr``` option. You can also display any metadata info available through exiftool as a command line argument, but may run into formatting problems. 
 
-Files are processed in parallel. On linux this script will use /dev/shm as a temporary directory if available. This is probably not the best way to implement this but worked fine for me. Change ```TEMP_DIR_BASE="/dev/shm"```. If files are on a spinning hard disk rather than an SSD use ```--hdd``` to read files sequentially. 
+Files are processed in parallel. On linux this script will use /dev/shm as a temporary directory if available. This is probably not the best way to implement this but worked fine for me. Change ```TEMP_DIR_BASE="/dev/shm"``` if you have issues or run out of RAM. Oh and this is provided with no warranties, not fit for any purpose, etc.  
+
+If files are on a spinning hard disk rather than an SSD use ```--hdd``` to read files sequentially. See above disclaimer.  
 
 Performance note: File hashes are calculated using the SHA256 algorithm on the full file. This is the slowest step, and if you don't need that information it is reccomended you skip it by including ```--no_hash``` in your command. This will let the script run significantly faster. 
 ```
